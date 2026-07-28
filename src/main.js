@@ -46,7 +46,7 @@ powerMonitor.on('shutdown', () => {
 // Setup context menu
 contextMenu({
     showSaveImage: true,
-    showInspectElement: true
+    showInspectElement: false
 });
 
 // If we're running on Windows, set our Application User Model ID to our application name.
