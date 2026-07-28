@@ -1,78 +1,48 @@
-## Why
-I'm annoyed at the lack of desktop app for voice, like hangouts had.
+# Google Voice Desktop (Arch Linux Port)
 
-## What does it do
-It just lets you keep voice open without a chrome browser. It will also check the dom for notifications and display a badge in the task bar and closing the app will send it to a tray instead of closing.
+An optimized, secure desktop app wrapper for the Google Voice website, tailored specifically for Arch Linux and its derivatives (such as Garuda). This application runs natively using the system-installed Electron framework.
 
-## Supported Operating Systems
-Currently supports both OSX, Windows 10 & Linux.
+## Key Enhancements in This Fork
 
-Questions? Ideas? Join us in discord https://discord.gg/3SSS6vkKET
+* **Strict Sandboxing Security:** Explicitly locks down window properties by disabling context isolation leaks and Node integration, keeping the app strictly isolated from your system files.
+* **Modern Context Menu:** Restores clean right-click navigation behavior while permanently stripping out invasive developer tools like "Inspect Element."
+* **Automated Package Lifecycle:** Provides a clean `PKGBUILD` mapping framework that automates installation natively via the system package manager.
+* **Unified Workspace Structure:** Purged of broken external layout paths and optimized to run completely flat.
 
-## Installation
-Go to the [Releases Page](https://github.com/Jerrkawz/google-voice-desktop-app/releases) and download the release for your OS.
+---
 
-Simply uzip and drag into the applications folder (mac) or run the executable (windows) or run the app image (ubuntu)
+## Installation via Pacman (Recommended)
 
-**Mac Note: The mac version is unsigned, so you will have to click "Open Anyway" after running, or go to Settings > Security & Privacy > General > Open Anyway. Sorry not paying for a dev license just for this**
+To compile from source and install the package cleanly onto your Garuda or Arch system using your local package builder toolkit, run the following sequence in your terminal:
 
+```fish
+# 1. Clone the repository fork
+git clone https://github.com
+cd google-voice-electron-archlinux
 
-**Linux Note: You will have to make the AppImage executable in order to run it. Right Click > Properties > Permissions > Allow Executing file as a program**
+# 2. Securely pull down local runtime dependencies 
+npm install --omit=dev --ignore-scripts
 
-## Customize
-You can change settings, apply themes and other things in the customization page. Go to `Electron > Settings` on Mac in the global menu bar, or `File > Settings` on windows. If you've hidden the menu bar you can also access the settings from the system tray.
+# 3. Compile the system package archive and install it
+makepkg -sifC
+```
 
-**Windows Settings**
+---
 
-![Windows Settings](/screenshots/windowsSettings.png?raw=true)
+## How to Execute
 
-**Mac Settings**
+Once installed, you can launch the application instantly through your desktop application menu by looking for **Voice Desktop**, or by executing this binary launcher command directly from your terminal:
 
-![Mac Settings](/screenshots/macSettings.png?raw=true)
+```fish
+google-voice-desktop
+```
 
-**System Tray Settings**
+---
 
-![System Tray Settings](/screenshots/systemTraySettings.png?raw=true)
+## Configuration & Customization
 
-## Themes
-The latest version now supports custom themes, which can be set in the Settings dialog.
+You can change display settings, apply custom visual themes (such as Dracula, Solar, or Minty), and manage interface styles cleanly inside the dedicated **Settings** window. 
 
-Not only themes but also a system for themeing! If you want to create your own theme and contribute back to the project you can do that [here](THEMES.md).
+* **Accessing Settings:** Right-click the application icon inside your Garuda system tray taskbar panel and choose **Settings**.
+* **System Tray Control:** Closing the application window with the `X` button will safely minimize it directly to your system tray taskbar panel to preserve live incoming message notifications. To close the app completely, right-click the system tray icon and select **Quit**.
 
-## Run From Source
-`git clone git@github.com:Jerrkawz/google-voice-desktop-app.git`
-
-`npm install -g yarn`
-
-`yarn install`
-
-`yarn start`
-
-To build yourself you can run
-`yarn run build:windows` or `yarn run build:mac` or `yarn run build:linux`
-
-## Screenshots
-
-**Main window:**
-
-![Windows](/screenshots/windows.png?raw=true)
-
-**Dracula theme:**
-
-![Dracula](/screenshots/dracula.png?raw=true)
-
-**Solar theme:**
-
-![Solar](/screenshots/solar.png?raw=true)
-
-**Minty theme:**
-
-![Minty](/screenshots/minty.png?raw=true)
-
-**Cerulean theme:**
-
-![Cerulean](/screenshots/cerulean.png?raw=true)
-
-## Attributions
-- Dracula: https://github.com/dracula/dracula-theme
-- Solar / Minty / Cerulean: https://bootswatch.com/
