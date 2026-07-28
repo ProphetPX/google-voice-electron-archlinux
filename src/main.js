@@ -1,3 +1,4 @@
+process.chdir(require('path').join(__dirname, '..'));
 // Requires
 const { app, nativeImage, BrowserWindow, Tray, Menu, ipcMain, BrowserView, shell, powerMonitor, systemPreferences } = require('electron');
 const constants = require('./constants');
