@@ -1,7 +1,7 @@
 # Maintainer: ProphetPX <prophetpx@gmail.com>
 pkgname=google-voice-electron-archlinux
 pkgver=1.3.1
-pkgrel=5
+pkgrel=6
 pkgdesc="An electron shell wrapper for the google voice app tailored for Arch Linux"
 arch=("any")
 url="https://github.com/ProphetPX/google-voice-electron-archlinux"
@@ -29,8 +29,8 @@ package() {
         install -Dm644 "$startdir/images/icon.png" "$pkgdir/usr/share/pixmaps/google-voice.png"
     fi
 
-    # 5. Build an execution binary routing script that invokes the main script directly
+    # 5. Build an execution binary routing script that invokes the app folder root directory cleanly
     install -d "$pkgdir/usr/bin"
-    echo -e "#!/bin/sh\nexec electron /usr/lib/$pkgname/src/main.js \"\$@\"" > "$pkgdir/usr/bin/google-voice-desktop"
+    echo -e "#!/bin/sh\nexec electron /usr/lib/$pkgname \"\$@\"" > "$pkgdir/usr/bin/google-voice-desktop"
     chmod +x "$pkgdir/usr/bin/google-voice-desktop"
 }
