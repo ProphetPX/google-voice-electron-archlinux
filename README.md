@@ -16,7 +16,7 @@ To install the application cleanly onto your machine, run the following sequence
 
 ```fish
 # 1. Clone the repository fork
-git clone https://github.com
+git clone https://github.com/ProphetPX/google-voice-electron-archlinux.git
 cd google-voice-electron-archlinux
 
 # 2. Download the required production runtime dependencies
