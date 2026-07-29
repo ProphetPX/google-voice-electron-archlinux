@@ -1,36 +1,43 @@
 # Maintainer: ProphetPX <prophetpx@gmail.com>
 pkgname=google-voice-electron-archlinux
 pkgver=1.3.1
-pkgrel=6
+pkgrel=17
 pkgdesc="An electron shell wrapper for the google voice app tailored for Arch Linux"
 arch=("any")
 url="https://github.com/ProphetPX/google-voice-electron-archlinux"
 license=("ISC")
 depends=("electron" "nodejs" "npm")
-source=("package.json")
-sha256sums=("SKIP")
+source=("git+https://github.com"
+        "google-voice-desktop.desktop")
+sha256sums=("SKIP"
+            "SKIP")
 
 package() {
-    # 1. Setup secure internal application path structures
-    install -d "$pkgdir/usr/lib/$pkgname"
+    # 1. Setup the standard global system library directories
+    install -d "$pkgdir/usr/lib/google-voice-electron-archlinux"
 
-    # 2. Extract configuration metadata, local scripts, assets, and backend modules
-    cp "$srcdir/package.json" "$pkgdir/usr/lib/$pkgname/"
-    cp -r "$startdir/src" "$pkgdir/usr/lib/$pkgname/"
-    cp -r "$startdir/node_modules" "$pkgdir/usr/lib/$pkgname/"
-    cp -r "$startdir/images" "$pkgdir/usr/lib/$pkgname/"
+    # 2. Extract configuration metadata, local scripts, assets, and backend modules out of the download sandbox
+    cp -L "$srcdir/google-voice-electron-archlinux/package.json" "$pkgdir/usr/lib/google-voice-electron-archlinux/"
+    cp "$srcdir/google-voice-electron-archlinux/main.js" "$pkgdir/usr/lib/google-voice-electron-archlinux/"
+    cp -r "$srcdir/google-voice-electron-archlinux/src" "$pkgdir/usr/lib/google-voice-electron-archlinux/"
+    cp -r "$srcdir/google-voice-electron-archlinux/node_modules" "$pkgdir/usr/lib/google-voice-electron-archlinux/"
+    cp -r "$srcdir/google-voice-electron-archlinux/images" "$pkgdir/usr/lib/google-voice-electron-archlinux/"
 
-    # 3. Mount the desktop system application launcher profile safely inside the sandbox
+    # 3. Explicitly enforce global system read permissions on all files to prevent Electron read failures
+    find "$pkgdir/usr/lib/google-voice-electron-archlinux" -type d -exec chmod 755 {} +
+    find "$pkgdir/usr/lib/google-voice-electron-archlinux" -type f -exec chmod 644 {} +
+
+    # 4. Mount the desktop system application launcher menu icon profile globally
     install -d "$pkgdir/usr/share/applications"
-    install -Dm644 "$startdir/google-voice-desktop.desktop" "$pkgdir/usr/share/applications/google-voice-desktop.desktop"
+    install -Dm644 "$srcdir/google-voice-desktop.desktop" "$pkgdir/usr/share/applications/google-voice-desktop.desktop"
 
-    # 4. Integrate high-resolution visual branding icon assets
-    if [ -f "$startdir/images/icon.png" ]; then
-        install -Dm644 "$startdir/images/icon.png" "$pkgdir/usr/share/pixmaps/google-voice.png"
+    # 5. Integrate the high-resolution visual branding icon asset globally
+    if [ -f "$srcdir/google-voice-electron-archlinux/images/icon.png" ]; then
+        install -Dm644 "$srcdir/google-voice-electron-archlinux/images/icon.png" "$pkgdir/usr/share/pixmaps/google-voice.png"
     fi
 
-    # 5. Build an execution binary routing script that invokes the app folder root directory cleanly
+    # 6. Build the official upstream binary launcher script that passes arguments to the folder path context cleanly
     install -d "$pkgdir/usr/bin"
-    echo -e "#!/bin/sh\nexec electron /usr/lib/$pkgname \"\$@\"" > "$pkgdir/usr/bin/google-voice-desktop"
+    echo -e "#!/bin/sh\nexec electron /usr/lib/google-voice-electron-archlinux \"\$@\"" > "$pkgdir/usr/bin/google-voice-desktop"
     chmod +x "$pkgdir/usr/bin/google-voice-desktop"
 }
